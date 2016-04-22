@@ -1,13 +1,13 @@
-Template.flyin.helpers({
+Template.flexPanel.helpers({
   iframeData: function() {
-    const iframeURL = Session.get('flyinIframeURL')
+    const iframeURL = Session.get('flexPanelIframeURL')
     return {iframeURL}
   }
 })
 
 const closeOnWindowMessages = ['updateUser']
 
-Template.flyinIframe.created = function() {
+Template.flexPanelIframe.created = function() {
   window.addEventListener('message', e => {
     const message = e.data
     if (closeOnWindowMessages.indexOf(message) >= 0) {

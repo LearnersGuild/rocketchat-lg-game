@@ -1,26 +1,8 @@
-const commands = {
-  profile: {
-    description: 'Edit your user profile',
-    getURL: () => {
-      const idmURL = window.location.href.match(/chat.learnersguild.org/) ? 'https://idm.learnersguild.org' : 'http://localhost:8081'
-      return `${idmURL}/profile#${Date.now()}`
-    }
-  }
-}
-
-function flyin(command, arg1, item) {
-  const commandDesc = commands[command]
-  if (commandDesc) {
-		let tmpl = RocketChat.TabBar.getTemplate()
-		if (tmpl !== 'flyin') {
-      RocketChat.TabBar.setTemplate('flyin')
-    }
-		if (RocketChat.TabBar.isFlexOpen()) {
-			RocketChat.TabBar.closeFlex()
-		} else {
-      Session.set('flyinIframeURL', commandDesc.getURL())
-			RocketChat.TabBar.openFlex()
-		}
+function invoke(command, commandParamStr) {
+  console.log(`'/${command}' invoked with '${commandParamStr}'`)
+  const commandConfig = commandsConfig[command]
+  if (commandConfig.onInvoke) {
+    commandConfig.onInvoke(command, commandParamStr)
   }
 }
 
@@ -32,13 +14,14 @@ Meteor.startup(function() {
 	// 	id: 'fly-in',
 	// 	title: 'Fly-in',
 	// 	icon: 'icon-rocket',
-	// 	template: 'flyinIframe',
+	// 	template: 'flexPanelIframe',
 	// 	order: 11
 	// })
 
-  Object.keys(commands).forEach(command => {
-    RocketChat.slashCommands.add(command, flyin, {
-  		description: commands[command].description,
+  Object.keys(commandsConfig).forEach(command => {
+    const commandConfig = commandsConfig[command]
+    RocketChat.slashCommands.add(command, invoke, {
+  		description: commandConfig.description,
   	})
   })
 })

@@ -1,9 +1,16 @@
-function flyin(command, ignore, item) {
-  if (command === 'flyin') {
-    console.log('flyin called')
+function invoke(command, commandParamStr) {
+  console.log(`'/${command}' invoked with '${commandParamStr}'`)
+  const commandConfig = commandsConfig[command]
+  if (commandConfig.onInvoke) {
+    commandConfig.onInvoke(command, commandParamStr)
   }
 }
 
 Meteor.startup(function() {
-  RocketChat.slashCommands.add('flyin', flyin)
+  Object.keys(commandsConfig).forEach(command => {
+    const commandConfig = commandsConfig[command]
+    RocketChat.slashCommands.add(command, invoke, {
+  		description: commandConfig.description,
+  	})
+  })
 })
