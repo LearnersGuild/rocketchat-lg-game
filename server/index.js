@@ -1,16 +1,15 @@
-function invoke(command, commandParamStr) {
-  console.log(`'/${command}' invoked with '${commandParamStr}'`)
+function invoke(command, commandParamStr, commandInfo) {
+  console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
   const commandConfig = commandsConfig[command]
   if (commandConfig.onInvoke) {
-    commandConfig.onInvoke(command, commandParamStr)
+    commandConfig.onInvoke(command, commandParamStr, commandInfo)
   }
 }
 
 Meteor.startup(function() {
   Object.keys(commandsConfig).forEach(command => {
     const commandConfig = commandsConfig[command]
-    RocketChat.slashCommands.add(command, invoke, {
-  		description: commandConfig.description,
-  	})
+    const {description, params} = commandConfig
+    RocketChat.slashCommands.add(command, invoke, {description, params})
   })
 })
