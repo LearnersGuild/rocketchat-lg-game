@@ -27,22 +27,30 @@ function voteForGoals(goals, commandInfo) {
         goalURL = `${goalRepositoryURL}/issues/${goal}`
       }
       if (goalURL.indexOf(goalRepositoryURL) < 0) {
-        throw new Error(`${goal} is not a valid goal issue number or URL.`)
+        throw new Error(`\`${goal}\` is not a valid goal issue number or URL.`)
       }
       return goalURL
     })
 
+    // TODO: validate the URLs with a GET to the GitHub API for the issue
+    // number, then render the titles below or raise an exception if the issue
+    // number isn't valid -- maybe do this in the game service?
+
     invokeVoteAPI(lgJWT, goalURLs)
       .then(vote => {
         console.log(`[LG SLASH COMMANDS] success (voteId = ${vote.id})`)
-        notifyUser(commandInfo.rid, `You successfully voted for:\n\n ${goalURLs.join('\n')}`)
+        const goalItems = goalURLs.map((goalURL, i) => {
+          const goalNum = goalURL.replace(`${goalRepositoryURL}/issues/`, '')
+          return `- [#${goalNum} (${i+1})](${goalURL})`
+        })
+        notifyUser(commandInfo.rid, `You successfully voted for:\n ${goalItems.join('\n')}`)
       })
       .catch(error => {
         console.error(error.stack)
-        notifyUser(commandInfo.rid, 'FATAL: Vote API invocation failed.')
+        notifyUser(commandInfo.rid, '**FATAL**: Vote API invocation failed.')
       })
   } catch (errorMessage) {
-    notifyUser(commandInfo.rid, errorMessage.toString())
+    notifyUser(commandInfo.rid, `**ERROR:** ${errorMessage.message}`)
   }
 }
 
