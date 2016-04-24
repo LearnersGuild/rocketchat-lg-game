@@ -1,6 +1,6 @@
 Package.describe({
   name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '0.2.1',
+  version: '0.2.2',
   summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
@@ -9,7 +9,8 @@ Package.onUse(function(api) {
   api.versionsFrom('1.2.1')
 
   api.use([
-    'ecmascript'
+    'ecmascript',
+    'learnersguild:rocketchat-lg-sso',
   ])
   api.use([
     'rocketchat:lib@0.0.1'

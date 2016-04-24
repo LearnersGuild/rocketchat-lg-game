@@ -9,14 +9,14 @@ function invoke(command, commandParamStr, commandInfo) {
 Meteor.startup(function() {
   // HOWTO add tab bar buttons on RHS
   //
-	// RocketChat.TabBar.addButton({
-	// 	groups: ['channel', 'privategroup', 'directmessage'],
-	// 	id: 'fly-in',
-	// 	title: 'Fly-in',
-	// 	icon: 'icon-rocket',
-	// 	template: 'flexPanelIframe',
-	// 	order: 11
-	// })
+  // RocketChat.TabBar.addButton({
+  //   groups: ['channel', 'privategroup', 'directmessage'],
+  //   id: 'fly-in',
+  //   title: 'Fly-in',
+  //   icon: 'icon-rocket',
+  //   template: 'flexPanelIframe',
+  //   order: 11
+  // })
   Object.keys(commandsConfig).forEach(command => {
     const commandConfig = commandsConfig[command]
     const {description, params} = commandConfig
@@ -24,13 +24,17 @@ Meteor.startup(function() {
   })
 
   // render responses from /slash commands
-  RocketChat.Notifications.onUser('lg-slash-command-response', msg => {
-  	console.log('[LG SLASH COMMANDS] command response:', msg)
-  	msg.u = {
-  		username: 'lgbot',
-    }
-  	msg.private = true
+  Tracker.autorun(() => {
+    if (Meteor.userId()) {
+      RocketChat.Notifications.onUser('lg-slash-command-response', msg => {
+        console.log('[LG SLASH COMMANDS] command response:', msg)
+        msg.u = {
+          username: 'lgbot',
+        }
+        msg.private = true
 
-  	ChatMessage.upsert({_id: msg._id}, msg)
+        ChatMessage.upsert({_id: msg._id}, msg)
+      })
+    }
   })
 })
