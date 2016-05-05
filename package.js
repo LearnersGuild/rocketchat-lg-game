@@ -10,7 +10,7 @@ Package.onUse(function(api) {
 
   api.use([
     'ecmascript',
-    'learnersguild:rocketchat-lg-sso@0.3.0',
+    'learnersguild:rocketchat-lg-sso@0.4.0',
   ])
   api.use([
     'rocketchat:lib@0.0.1'
