@@ -16,11 +16,11 @@ mutation($goals: [URL]) {
 
 function voteForGoals(goals, commandInfo) {
   try {
-    const {lgJWT, playerInfo} = Meteor.user().services.lgSSO
-    if (!lgJWT || !playerInfo) {
+    const {lgJWT, lgPlayer} = Meteor.user().services.lgSSO
+    if (!lgJWT || !lgPlayer) {
       throw new Error('You are not a player in the game.')
     }
-    const {goalRepositoryURL} = playerInfo.chapter
+    const {goalRepositoryURL} = lgPlayer.chapter
     const goalURLs = goals.map(goal => {
       let goalURL = goal
       if (goal.match(/\d+/)) {
