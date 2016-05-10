@@ -27,15 +27,17 @@ Meteor.methods({
         scConnect()
       }
       const {lgPlayer} = Meteor.user().services.lgSSO
-      socket.unsubscribe(`notifyUser-${lgPlayer.id}`)
-      const playerNotificationsChannel = socket.subscribe(`notifyUser-${lgPlayer.id}`)
-      playerNotificationsChannel.watch(Meteor.bindEnvironment(playerNotification => {
-        if (lastSlashCommandRoomId) {
-          notifyUser(lastSlashCommandRoomId, playerNotification)
-        } else {
-          console.error('[LG SLASH COMMANDS] received player notification, but do not know to which room to send it')
-        }
-      }))
+      const channelName = `notifyUser-${lgPlayer.id}`
+      if (!socket.isSubscribed(channelName, true)) {
+        const playerNotificationsChannel = socket.subscribe(channelName)
+        playerNotificationsChannel.watch(Meteor.bindEnvironment(playerNotification => {
+          if (lastSlashCommandRoomId) {
+            notifyUser(lastSlashCommandRoomId, playerNotification)
+          } else {
+            console.error('[LG SLASH COMMANDS] received player notification, but do not know to which room to send it')
+          }
+        }))
+      }
     }
   },
 
@@ -45,7 +47,8 @@ Meteor.methods({
         return
       }
       const {lgPlayer} = Meteor.user().services.lgSSO
-      socket.unsubscribe(`notifyUser-${lgPlayer.id}`)
+      const channelName = `notifyUser-${lgPlayer.id}`
+      socket.unsubscribe(channelName)
     }
   }
 })
