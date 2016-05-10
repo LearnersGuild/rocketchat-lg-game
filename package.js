@@ -28,7 +28,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/commands/profile.js',
     'client/commands/vote.js',
-    'client/lib/toggleFlexPanel.js',
+    'client/lib/flexPanel.js',
     'client/index.js',
     'client/views/flexPanelIframe.html',
     'client/views/flexPanelIframe.js',

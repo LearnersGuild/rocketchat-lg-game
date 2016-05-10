@@ -1,8 +1,5 @@
-function voteForGoals(goals, commandInfo) {
-}
-
-commandsConfig.vote.onInvoke = (command, commandParamStr, commandInfo) => {
-  // console.log('[LG SLASH COMMANDS] about to vote for:', commandParamStr)
-  // const goals = commandParamStr.split(/\s+/)
-  // voteForGoals(goals, commandInfo)
+commandsConfig.vote.onInvoke = (command, commandParamStr) => {
+  const gameURL = window.location.href.match(/chat.learnersguild.org/) ? 'https://game.learnersguild.org' : 'http://game.learnersguild.dev'
+  const flexPanelURL = `${gameURL}/cycle-voting-results#${Date.now()}`
+  openFlexPanel(flexPanelURL)
 }

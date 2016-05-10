@@ -5,7 +5,10 @@ Template.flexPanel.helpers({
   }
 })
 
-const closeOnWindowMessages = ['updateUser']
+const closeOnWindowMessages = [
+  'updateUser',
+  'closeCycleVotingResults',
+]
 
 Template.flexPanelIframe.created = function() {
   window.addEventListener('message', e => {
