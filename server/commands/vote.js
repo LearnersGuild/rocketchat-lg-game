@@ -32,10 +32,6 @@ function voteForGoals(goals, commandInfo) {
       return goalURL
     })
 
-    // TODO: validate the URLs with a GET to the GitHub API for the issue
-    // number, then render the titles below or raise an exception if the issue
-    // number isn't valid -- maybe do this in the game service?
-
     invokeVoteAPI(lgJWT, goalURLs)
       .then(vote => {
         console.log(`[LG SLASH COMMANDS] API success (voteId = ${vote.id})`)
