@@ -27,7 +27,7 @@ Meteor.startup(function() {
   Tracker.autorun(() => {
     if (Meteor.userId()) {
       RocketChat.Notifications.onUser('lg-slash-command-response', msg => {
-        console.log('[LG SLASH COMMANDS] command response:', msg)
+        // console.log('[LG SLASH COMMANDS] command response:', msg)
         msg.u = {
           username: 'lgbot',
         }
