@@ -4,6 +4,7 @@ function invoke(command, commandParamStr, commandInfo) {
   if (commandConfig.onInvoke) {
     commandConfig.onInvoke(command, commandParamStr, commandInfo)
   }
+  console.log('[LG SLASH COMMANDS] room id:', commandInfo.rid)
 }
 
 Meteor.startup(function() {
@@ -23,9 +24,11 @@ Meteor.startup(function() {
     RocketChat.slashCommands.add(command, invoke, {description, params})
   })
 
-  // render responses from /slash commands
   Tracker.autorun(() => {
     if (Meteor.userId()) {
+      Meteor.call('subscribeToLGUserNotifications')
+
+      // render responses from /slash commands
       RocketChat.Notifications.onUser('lg-slash-command-response', msg => {
         // console.log('[LG SLASH COMMANDS] command response:', msg)
         msg.u = {
@@ -35,6 +38,8 @@ Meteor.startup(function() {
 
         ChatMessage.upsert({_id: msg._id}, msg)
       })
+    } else {
+      Meteor.call('unsubscribeFromLGUserNotifications')
     }
   })
 })

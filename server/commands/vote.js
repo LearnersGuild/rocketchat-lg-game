@@ -38,12 +38,12 @@ function voteForGoals(goals, commandInfo) {
 
     invokeVoteAPI(lgJWT, goalURLs)
       .then(vote => {
-        console.log(`[LG SLASH COMMANDS] success (voteId = ${vote.id})`)
+        console.log(`[LG SLASH COMMANDS] API success (voteId = ${vote.id})`)
         const goalItems = goalURLs.map((goalURL, i) => {
           const goalNum = goalURL.replace(`${goalRepositoryURL}/issues/`, '')
           return `- [#${goalNum} (${i+1})](${goalURL})`
         })
-        notifyUser(commandInfo.rid, `You successfully voted for:\n ${goalItems.join('\n')}`)
+        notifyUser(commandInfo.rid, `You cast votes for:\n ${goalItems.join('\n')}`)
       })
       .catch(error => {
         console.error(error.stack)
