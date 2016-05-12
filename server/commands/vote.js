@@ -43,6 +43,7 @@ function voteForGoals(goals, commandInfo) {
       })
       .catch(error => {
         console.error(error.stack)
+        RavenLogger.log(error)
         notifyUser(commandInfo.rid, '**FATAL**: Vote API invocation failed.')
       })
   } catch (errorMessage) {

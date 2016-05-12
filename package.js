@@ -1,6 +1,6 @@
 Package.describe({
   name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '0.3.1',
+  version: '0.3.2',
   summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
@@ -11,6 +11,7 @@ Package.onUse(function(api) {
   api.use([
     'ecmascript',
     'learnersguild:rocketchat-lg-sso@0.4.0',
+    'deepwell:raven@0.3.0'
   ])
   api.use([
     'rocketchat:lib@0.0.1'
@@ -29,6 +30,7 @@ Package.onUse(function(api) {
     'client/commands/profile.js',
     'client/commands/vote.js',
     'client/lib/flexPanel.js',
+    'client/lib/sentry.js',
     'client/index.js',
     'client/views/flexPanelIframe.html',
     'client/views/flexPanelIframe.js',
@@ -36,6 +38,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'server/commands/vote.js',
     'server/lib/notifyUser.js',
+    'server/lib/sentry.js',
     'server/index.js',
   ], 'server')
 })

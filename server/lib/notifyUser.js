@@ -34,7 +34,9 @@ Meteor.methods({
           if (lastSlashCommandRoomId) {
             notifyUser(lastSlashCommandRoomId, playerNotification)
           } else {
-            console.error('[LG SLASH COMMANDS] received player notification, but do not know to which room to send it')
+            const msg = '[LG SLASH COMMANDS] received player notification, but do not know to which room to send it'
+            console.error(msg)
+            RavenLogger.log(msg)
           }
         }))
       }
