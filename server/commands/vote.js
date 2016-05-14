@@ -20,26 +20,28 @@ function voteForGoals(goals, commandInfo) {
     if (!lgJWT || !lgPlayer) {
       throw new Error('You are not a player in the game.')
     }
+    if (goals.length === 1) {
+      throw new Error('You must vote for exactly 2 goals.')
+    }
+    if (goals.length > 2) {
+      notifyUser(commandInfo.rid, `Only 2 goals are allowed, so these were disqualified: ${goals.slice(2).join(', ')}`)
+    }
+
     const {goalRepositoryURL} = lgPlayer.chapter
-    const goalURLs = goals.map(goal => {
-      let goalURL = goal
-      if (goal.match(/\d+/)) {
-        goalURL = `${goalRepositoryURL}/issues/${goal}`
-      }
-      if (goalURL.indexOf(goalRepositoryURL) < 0) {
-        throw new Error(`\`${goal}\` is not a valid goal issue number or URL.`)
-      }
-      return goalURL
-    })
+    const goalLibraryBaseURL = `${goalRepositoryURL}/issues/`
+    const goalURLs = goals
+      .slice(0, 2)
+      .map(goal => goal.replace(goalLibraryBaseURL, ''))
+      .map(goal => `${goalLibraryBaseURL}${goal}`)
 
     invokeVoteAPI(lgJWT, goalURLs)
       .then(vote => {
-        console.log(`[LG SLASH COMMANDS] API success (voteId = ${vote.id})`)
+        // console.log(`[LG SLASH COMMANDS] API success (voteId = ${vote.id})`)
         const goalItems = goalURLs.map((goalURL, i) => {
           const goalNum = goalURL.replace(`${goalRepositoryURL}/issues/`, '')
-          return `- [#${goalNum} (${i+1})](${goalURL})`
+          return `- [${goalNum} (${i+1})](${goalURL})`
         })
-        notifyUser(commandInfo.rid, `You cast votes for:\n ${goalItems.join('\n')}`)
+        notifyUser(commandInfo.rid, `Validating your votes:\n ${goalItems.join('\n')}`)
       })
       .catch(error => {
         console.error(error.stack)
@@ -52,9 +54,11 @@ function voteForGoals(goals, commandInfo) {
 }
 
 commandsConfig.vote.onInvoke = (command, commandParamStr, commandInfo) => {
-  console.log('[LG SLASH COMMANDS] about to vote for:', commandParamStr)
+  // console.log('[LG SLASH COMMANDS] about to vote for:', commandParamStr)
   const goals = commandParamStr.split(/\s+/).filter(goal => goal.length > 0)
   if (goals.length > 0) {
     voteForGoals(goals, commandInfo)
+  } else {
+    notifyUser(commandInfo.rid, 'Loading current cycle voting results ...')
   }
 }
