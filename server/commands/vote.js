@@ -20,25 +20,32 @@ function voteForGoals(goals, commandInfo) {
     if (!lgJWT || !lgPlayer) {
       throw new Error('You are not a player in the game.')
     }
-    if (goals.length === 1) {
+    if (goals.length !== 0 && goals.length !== 2) {
       throw new Error('You must vote for exactly 2 goals.')
-    }
-    if (goals.length > 2) {
-      notifyUser(commandInfo.rid, `Only 2 goals are allowed, so these were disqualified: ${goals.slice(2).join(', ')}`)
     }
 
     const {goalRepositoryURL} = lgPlayer.chapter
     const goalLibraryBaseURL = `${goalRepositoryURL}/issues/`
-    const goalURLs = goals
-      .slice(0, 2)
-      .map(goal => goal.replace(goalLibraryBaseURL, ''))
-      .map(goal => `${goalLibraryBaseURL}${goal}`)
+
+    const goalURLs = goals.map(goal => {
+      const urlRegex = new RegExp(`^${goalLibraryBaseURL}\\d+$`)
+
+      if (goal.match(urlRegex)) {
+        return goal
+      }
+      else if (goal.match(/^\d+$/)) {
+        return `${goalRepositoryURL}/issues/${goal}`
+      }
+      else {
+        throw new Error(`\`${goal}\` is not a valid goal issue number or URL.`)
+      }
+    })
 
     invokeVoteAPI(lgJWT, goalURLs)
       .then(vote => {
         // console.log(`[LG SLASH COMMANDS] API success (voteId = ${vote.id})`)
         const goalItems = goalURLs.map((goalURL, i) => {
-          const goalNum = goalURL.replace(`${goalRepositoryURL}/issues/`, '')
+          const goalNum = goalURL.replace(goalLibraryBaseURL, '')
           return `- [${goalNum} (${i+1})](${goalURL})`
         })
         notifyUser(commandInfo.rid, `Validating your votes:\n ${goalItems.join('\n')}`)
