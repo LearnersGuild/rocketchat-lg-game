@@ -17,7 +17,7 @@ function launchCycle(commandInfo) {
     invokeLaunchCycleAPI(lgJWT)
       // unless our API invocation fails, we'll stay quiet because the server will notify
       // the user via the web socket
-      .then(response => console.log(`[LG SLASH COMMANDS] '/cycle launch' API response: ${response}`))
+      // .then(response => console.log(`[LG SLASH COMMANDS] '/cycle launch' API response: ${response}`))
       .catch(error => {
         console.error(error.stack)
         RavenLogger.log(error)
@@ -29,10 +29,17 @@ function launchCycle(commandInfo) {
 }
 
 commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
-  if (commandParamStr === 'launch') {
-    launchCycle(commandInfo)
-  } else {
-    notifyUser(commandInfo.rid, '**ERROR:** Invalid action for /cycle')
+  const subcommands = commandParamStr.split(/\s+/).filter(subcommand => subcommand.length > 0)
+  if (subcommands.length > 0) {
+    const subcommand = subcommands[0]
+    switch (subcommand) {
+      case 'launch': {
+        launchCycle(commandInfo)
+        break
+      }
+      default: {
+        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for /cycle')
+      }
+    }
   }
 }
-
