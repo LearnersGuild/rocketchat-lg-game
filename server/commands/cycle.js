@@ -1,7 +1,7 @@
 function invokeLaunchCycleAPI(lgJWT) {
   const baseURL = process.env.NODE_ENV === 'development' ? 'http://game.learnersguild.dev' : 'https://game.learnersguild.org'
   const mutation = {
-    query: `mutation { launchCycle }`
+    query: `mutation { launchCycle { id } }`
   }
   return graphQLFetcher(lgJWT, baseURL)(mutation)
     .then(data => data.launchCycle)
