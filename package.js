@@ -1,6 +1,6 @@
 Package.describe({
   name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '0.3.5',
+  version: '0.4.0',
   summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
@@ -37,6 +37,7 @@ Package.onUse(function(api) {
   ], 'client')
   api.addFiles([
     'server/commands/vote.js',
+    'server/commands/cycle.js',
     'server/lib/notifyUser.js',
     'server/lib/sentry.js',
     'server/index.js',
