@@ -1,3 +1,5 @@
+/* global commandsConfig */
+
 function invoke(command, commandParamStr, commandInfo) {
   console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
   const commandConfig = commandsConfig[command]
@@ -7,7 +9,8 @@ function invoke(command, commandParamStr, commandInfo) {
   console.log('[LG SLASH COMMANDS] room id:', commandInfo.rid)
 }
 
-Meteor.startup(function() {
+/* eslint-disable prefer-arrow-callback */
+Meteor.startup(function () {
   // HOWTO add tab bar buttons on RHS
   //
   // RocketChat.TabBar.addButton({

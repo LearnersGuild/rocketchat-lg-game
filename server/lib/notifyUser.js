@@ -1,5 +1,7 @@
+/* global notifyUser:true, lastSlashCommandRoomId */
+/* exported notifyUser */
+
 const socketCluster = Npm.require('socketcluster-client')
-const Future = Npm.require('fibers/future')
 
 notifyUser = (roomId, message) => {
   RocketChat.Notifications.notifyUser(Meteor.userId(), 'lg-slash-command-response', {
@@ -21,7 +23,7 @@ function scConnect() {
 }
 
 Meteor.methods({
-  subscribeToLGUserNotifications: function() {
+  subscribeToLGUserNotifications() {
     if (Meteor.userId()) {
       if (!socket) {
         scConnect()
@@ -43,7 +45,7 @@ Meteor.methods({
     }
   },
 
-  unsubscribeFromLGUserNotifications: function() {
+  unsubscribeFromLGUserNotifications() {
     if (Meteor.userId()) {
       if (!socket) {
         return
@@ -55,6 +57,7 @@ Meteor.methods({
   }
 })
 
-Meteor.startup(function() {
+/* eslint-disable prefer-arrow-callback */
+Meteor.startup(function () {
   scConnect()
 })

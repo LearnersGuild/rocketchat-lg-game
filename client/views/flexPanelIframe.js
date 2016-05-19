@@ -1,5 +1,5 @@
 Template.flexPanel.helpers({
-  iframeData: function() {
+  iframeData() {
     const iframeURL = Session.get('flexPanelIframeURL')
     return {iframeURL}
   }
@@ -10,7 +10,8 @@ const closeOnWindowMessages = [
   'closeCycleVotingResults',
 ]
 
-Template.flexPanelIframe.created = function() {
+Template.flexPanelIframe.created = function () {
+  /* global window */
   window.addEventListener('message', e => {
     const message = e.data
     if (closeOnWindowMessages.indexOf(message) >= 0) {

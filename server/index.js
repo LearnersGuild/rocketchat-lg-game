@@ -1,3 +1,6 @@
+/* global lastSlashCommandRoomId:true, commandsConfig */
+/* exported lastSlashCommandRoomId */
+
 lastSlashCommandRoomId = null
 function invoke(command, commandParamStr, commandInfo) {
   console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
@@ -8,7 +11,8 @@ function invoke(command, commandParamStr, commandInfo) {
   lastSlashCommandRoomId = commandInfo.rid
 }
 
-Meteor.startup(function() {
+/* eslint-disable prefer-arrow-callback */
+Meteor.startup(function () {
   Object.keys(commandsConfig).forEach(command => {
     const commandConfig = commandsConfig[command]
     const {description, params} = commandConfig

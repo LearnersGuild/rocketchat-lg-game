@@ -1,21 +1,24 @@
+/* global ensureFlexPanelTemplate:true, openFlexPanel:true, toggleFlexPanel:true */
+/* exported ensureFlexPanelTemplate, openFlexPanel, toggleFlexPanel */
+
 ensureFlexPanelTemplate = () => {
-	let tmpl = RocketChat.TabBar.getTemplate()
-	if (tmpl !== 'flexPanel') {
+  const tmpl = RocketChat.TabBar.getTemplate()
+  if (tmpl !== 'flexPanel') {
     RocketChat.TabBar.setTemplate('flexPanel')
   }
 }
 
-openFlexPanel = (url) => {
-	ensureFlexPanelTemplate()
+openFlexPanel = url => {
+  ensureFlexPanelTemplate()
   Session.set('flexPanelIframeURL', url)
-	RocketChat.TabBar.openFlex()
+  RocketChat.TabBar.openFlex()
 }
 
-toggleFlexPanel = (url) => {
-	ensureFlexPanelTemplate()
-	if (RocketChat.TabBar.isFlexOpen()) {
-		RocketChat.TabBar.closeFlex()
-	} else {
-		openFlexPanel(url)
-	}
+toggleFlexPanel = url => {
+  ensureFlexPanelTemplate()
+  if (RocketChat.TabBar.isFlexOpen()) {
+    RocketChat.TabBar.closeFlex()
+  } else {
+    openFlexPanel(url)
+  }
 }
