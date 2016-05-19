@@ -13,5 +13,5 @@ deployment:
   production:
     branch: "master"
     commands:
-      - printf "${METEOR_USERNAME}\n${METEOR_PASSWORD}\n" | meteor login
+      - ./meteor-login.exp ${METEOR_USERNAME} ${METEOR_PASSWORD}
       - meteor publish
