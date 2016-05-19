@@ -1,3 +1,5 @@
+/* global graphQLFetcher, notifyUser, commandsConfig */
+
 function invokeVoteAPI(lgJWT, goalDescriptors) {
   const baseURL = process.env.NODE_ENV === 'development' ? 'http://game.learnersguild.dev' : 'https://game.learnersguild.org'
   const mutation = {
