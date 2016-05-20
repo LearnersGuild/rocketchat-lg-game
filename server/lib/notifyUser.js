@@ -1,4 +1,4 @@
-/* global notifyUser:true, lastSlashCommandRoomId */
+/* global notifyUser:true, lastSlashCommandRoomIds */
 /* exported notifyUser */
 
 const socketCluster = Npm.require('socketcluster-client')
@@ -37,8 +37,8 @@ Meteor.methods({
       if (!socket.isSubscribed(channelName, true)) {
         const playerNotificationsChannel = socket.subscribe(channelName)
         playerNotificationsChannel.watch(Meteor.bindEnvironment(playerNotification => {
-          if (lastSlashCommandRoomId) {
-            notifyUser(lastSlashCommandRoomId, playerNotification)
+          if (lastSlashCommandRoomIds[Meteor.userId()]) {
+            notifyUser(lastSlashCommandRoomIds[Meteor.userId()], playerNotification)
           } else {
             const msg = '[LG SLASH COMMANDS] received player notification, but do not know to which room to send it'
             console.error(msg)

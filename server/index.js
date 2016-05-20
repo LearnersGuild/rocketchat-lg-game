@@ -1,14 +1,14 @@
-/* global lastSlashCommandRoomId:true, commandsConfig */
-/* exported lastSlashCommandRoomId */
+/* global lastSlashCommandRoomIds:true, commandsConfig */
+/* exported lastSlashCommandRoomIds */
 
-lastSlashCommandRoomId = null
+lastSlashCommandRoomIds = {}
 function invoke(command, commandParamStr, commandInfo) {
   console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
   const commandConfig = commandsConfig[command]
   if (commandConfig.onInvoke) {
     commandConfig.onInvoke(command, commandParamStr, commandInfo)
   }
-  lastSlashCommandRoomId = commandInfo.rid
+  lastSlashCommandRoomIds[Meteor.userId()] = commandInfo.rid
 }
 
 /* eslint-disable prefer-arrow-callback */
