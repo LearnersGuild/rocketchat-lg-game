@@ -23,7 +23,7 @@ function launchCycle(commandInfo) {
       .catch(error => {
         console.error(error.stack)
         RavenLogger.log(error)
-        notifyUser(commandInfo.rid, '**FATAL**: Vote API invocation failed.')
+        notifyUser(commandInfo.rid, '**FATAL**: API invocation failed.')
       })
   } catch (errorMessage) {
     notifyUser(commandInfo.rid, `**ERROR:** ${errorMessage.message}`)
