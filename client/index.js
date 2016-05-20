@@ -34,11 +34,6 @@ Meteor.startup(function () {
       // render responses from /slash commands
       RocketChat.Notifications.onUser('lg-slash-command-response', msg => {
         // console.log('[LG SLASH COMMANDS] command response:', msg)
-        msg.u = {
-          username: 'lgbot',
-        }
-        msg.private = true
-
         ChatMessage.upsert({_id: msg._id}, msg)
       })
     } else {
