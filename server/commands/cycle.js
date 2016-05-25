@@ -1,22 +1,22 @@
 /* global graphQLFetcher, notifyUser, commandsConfig */
 
-function invokeLaunchCycleAPI(lgJWT) {
+function invokeUpdateCycleStateAPI(state, lgJWT) {
   const baseURL = process.env.NODE_ENV === 'development' ? 'http://game.learnersguild.dev' : 'https://game.learnersguild.org'
   const mutation = {
-    query: 'mutation { launchCycle { id } }'
+    query: 'mutation($state: String!) { launchCycle(state: $state) { id } }'
   }
-  return graphQLFetcher(lgJWT, baseURL)(mutation)
+  return graphQLFetcher(lgJWT, baseURL)(mutation, {state})
     .then(data => data.launchCycle)
 }
 
-function launchCycle(commandInfo) {
+function handleUpdateCycleStateCommand(commandInfo, state, msg) {
   try {
     const {lgJWT, lgPlayer} = Meteor.user().services.lgSSO
     if (!lgJWT || !lgPlayer) {
       throw new Error('You are not a player in the game.')
     }
-    notifyUser(commandInfo.rid, '🚀  Initiating Launch... stand by.')
-    invokeLaunchCycleAPI(lgJWT)
+    notifyUser(commandInfo.rid, msg)
+    invokeUpdateCycleStateAPI(state, lgJWT)
       // unless our API invocation fails, we'll stay quiet because the server will notify
       // the user via the web socket
       // .then(response => console.log(`[LG SLASH COMMANDS] '/cycle launch' API response: ${response}`))
@@ -36,7 +36,11 @@ commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
     const subcommand = subcommands[0]
     switch (subcommand) {
       case 'launch': {
-        launchCycle(commandInfo)
+        handleUpdateCycleStateCommand(commandInfo, 'PRACTICE', '🚀  Initiating Launch... stand by.')
+        break
+      }
+      case 'retro': {
+        handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', 'Initiating Retrospective... stand by.')
         break
       }
       default: {
