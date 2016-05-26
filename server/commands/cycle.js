@@ -3,9 +3,10 @@
 function invokeUpdateCycleStateAPI(state, lgJWT) {
   const baseURL = process.env.NODE_ENV === 'development' ? 'http://game.learnersguild.dev' : 'https://game.learnersguild.org'
   const mutation = {
-    query: 'mutation($state: String!) { launchCycle(state: $state) { id } }'
+    query: 'mutation($state: String!) { updateCycleState(state: $state) { id } }',
+    variables: {state},
   }
-  return graphQLFetcher(lgJWT, baseURL)(mutation, {state})
+  return graphQLFetcher(lgJWT, baseURL)(mutation)
     .then(data => data.launchCycle)
 }
 
@@ -30,6 +31,14 @@ function handleUpdateCycleStateCommand(commandInfo, state, msg) {
   }
 }
 
+function showUsage(rid) {
+  notifyUser(rid, `**USAGE:**
+  \`/cycle launch\` - Form teams and launch the cycle
+  \`/cycle retro\` - Start the retrospective
+  \`/cycle help\` - Show this handy usage information
+`)
+}
+
 commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
   const subcommands = commandParamStr.split(/\s+/).filter(subcommand => subcommand.length > 0)
   if (subcommands.length > 0) {
@@ -40,12 +49,20 @@ commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
         break
       }
       case 'retro': {
-        handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', 'Initiating Retrospective... stand by.')
+        handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', '🤔  Initiating Retrospective... stand by.')
+        break
+      }
+      case 'help': {
+        showUsage(commandInfo.rid)
         break
       }
       default: {
         notifyUser(commandInfo.rid, '**ERROR:** Invalid action for /cycle')
+        showUsage(commandInfo.rid)
       }
     }
+  }
+  else {
+    showUsage(commandInfo.rid)
   }
 }

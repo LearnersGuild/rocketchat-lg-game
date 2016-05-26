@@ -2,6 +2,7 @@
 
 #### 0.5.0
 - Adding `/cycle retro` command
+- Adding `/cycle help` command
 
 #### 0.4.4
 - better error message when API returns error
