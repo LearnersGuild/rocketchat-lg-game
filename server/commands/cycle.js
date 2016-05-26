@@ -18,13 +18,11 @@ function handleUpdateCycleStateCommand(commandInfo, state, msg) {
     }
     notifyUser(commandInfo.rid, msg)
     invokeUpdateCycleStateAPI(state, lgJWT)
-      // unless our API invocation fails, we'll stay quiet because the server will notify
-      // the user via the web socket
-      // .then(response => console.log(`[LG SLASH COMMANDS] '/cycle launch' API response: ${response}`))
+      .then(response => response.json())
       .catch(error => {
         console.error(error.stack)
         RavenLogger.log(error)
-        notifyUser(commandInfo.rid, '**FATAL**: API invocation failed.')
+        notifyUser(commandInfo.rid, `**ERROR**: ${error.message}`)
       })
   } catch (errorMessage) {
     notifyUser(commandInfo.rid, `**ERROR:** ${errorMessage.message}`)
