@@ -61,8 +61,7 @@ commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
         showUsage(commandInfo.rid)
       }
     }
-  }
-  else {
+  } else {
     showUsage(commandInfo.rid)
   }
 }
