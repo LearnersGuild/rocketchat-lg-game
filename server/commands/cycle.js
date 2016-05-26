@@ -18,7 +18,6 @@ function handleUpdateCycleStateCommand(commandInfo, state, msg) {
     }
     notifyUser(commandInfo.rid, msg)
     invokeUpdateCycleStateAPI(state, lgJWT)
-      .then(response => response.json())
       .catch(error => {
         console.error(error.stack)
         RavenLogger.log(error)
