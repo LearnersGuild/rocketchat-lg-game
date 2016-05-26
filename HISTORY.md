@@ -1,5 +1,8 @@
 # History
 
+#### 0.5.0
+- Adding `/cycle retro` command
+
 #### 0.4.4
 - better error message when API returns error
 - use actual lg-bot user rather than a mock user for slash-command notifications
