@@ -12,9 +12,10 @@ function invokeUpdateCycleStateAPI(state, lgJWT) {
 
 function handleUpdateCycleStateCommand(commandInfo, state, msg) {
   try {
-    const {lgJWT, lgPlayer} = Meteor.user().services.lgSSO
-    if (!lgJWT || !lgPlayer) {
-      throw new Error('You are not a player in the game.')
+    const {lgJWT, lgUser} = Meteor.user().services.lgSSO
+    console.log({lgUser})
+    if (!lgJWT || lgUser.roles.indexOf('moderator') < 0) {
+      throw new Error('You are not a moderator.')
     }
     notifyUser(commandInfo.rid, msg)
     invokeUpdateCycleStateAPI(state, lgJWT)
@@ -49,14 +50,13 @@ commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
         handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', '🤔  Initiating Retrospective... stand by.')
         break
       }
-      case '--help': {
-      }
+      case '--help':
       case 'help': {
         showUsage(commandInfo.rid)
         break
       }
       default: {
-        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for \`/cycle\`. Try \`/cycle --help\` for usage.')
+        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for `/cycle`. Try `/cycle --help` for usage.')
       }
     }
   } else {
