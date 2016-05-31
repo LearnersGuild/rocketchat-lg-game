@@ -49,13 +49,14 @@ commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
         handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', '🤔  Initiating Retrospective... stand by.')
         break
       }
+      case '--help': {
+      }
       case 'help': {
         showUsage(commandInfo.rid)
         break
       }
       default: {
-        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for /cycle')
-        showUsage(commandInfo.rid)
+        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for \`/cycle\`. Try \`/cycle --help\` for usage.')
       }
     }
   } else {
