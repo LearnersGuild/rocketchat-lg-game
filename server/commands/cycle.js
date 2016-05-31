@@ -1,33 +1,40 @@
 /* global graphQLFetcher, notifyUser, commandsConfig */
 
-function invokeLaunchCycleAPI(lgJWT) {
+function invokeUpdateCycleStateAPI(state, lgJWT) {
   const baseURL = process.env.NODE_ENV === 'development' ? 'http://game.learnersguild.dev' : 'https://game.learnersguild.org'
   const mutation = {
-    query: 'mutation { launchCycle { id } }'
+    query: 'mutation($state: String!) { updateCycleState(state: $state) { id } }',
+    variables: {state},
   }
   return graphQLFetcher(lgJWT, baseURL)(mutation)
     .then(data => data.launchCycle)
 }
 
-function launchCycle(commandInfo) {
+function handleUpdateCycleStateCommand(commandInfo, state, msg) {
   try {
-    const {lgJWT, lgPlayer} = Meteor.user().services.lgSSO
-    if (!lgJWT || !lgPlayer) {
-      throw new Error('You are not a player in the game.')
+    const {lgJWT, lgUser} = Meteor.user().services.lgSSO
+    console.log({lgUser})
+    if (!lgJWT || lgUser.roles.indexOf('moderator') < 0) {
+      throw new Error('You are not a moderator.')
     }
-    notifyUser(commandInfo.rid, '🚀  Initiating Launch... stand by.')
-    invokeLaunchCycleAPI(lgJWT)
-      // unless our API invocation fails, we'll stay quiet because the server will notify
-      // the user via the web socket
-      // .then(response => console.log(`[LG SLASH COMMANDS] '/cycle launch' API response: ${response}`))
+    notifyUser(commandInfo.rid, msg)
+    invokeUpdateCycleStateAPI(state, lgJWT)
       .catch(error => {
         console.error(error.stack)
         RavenLogger.log(error)
-        notifyUser(commandInfo.rid, '**FATAL**: API invocation failed.')
+        notifyUser(commandInfo.rid, `**ERROR**: ${error.message}`)
       })
   } catch (errorMessage) {
     notifyUser(commandInfo.rid, `**ERROR:** ${errorMessage.message}`)
   }
+}
+
+function showUsage(rid) {
+  notifyUser(rid, `**USAGE:**
+  \`/cycle launch\` - Form teams and launch the cycle
+  \`/cycle retro\` - Start the retrospective
+  \`/cycle help\` - Show this handy usage information
+`)
 }
 
 commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
@@ -36,12 +43,23 @@ commandsConfig.cycle.onInvoke = (command, commandParamStr, commandInfo) => {
     const subcommand = subcommands[0]
     switch (subcommand) {
       case 'launch': {
-        launchCycle(commandInfo)
+        handleUpdateCycleStateCommand(commandInfo, 'PRACTICE', '🚀  Initiating Launch... stand by.')
+        break
+      }
+      case 'retro': {
+        handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', '🤔  Initiating Retrospective... stand by.')
+        break
+      }
+      case '--help':
+      case 'help': {
+        showUsage(commandInfo.rid)
         break
       }
       default: {
-        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for /cycle')
+        notifyUser(commandInfo.rid, '**ERROR:** Invalid action for `/cycle`. Try `/cycle --help` for usage.')
       }
     }
+  } else {
+    showUsage(commandInfo.rid)
   }
 }
