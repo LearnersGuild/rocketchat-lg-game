@@ -1,6 +1,6 @@
 Package.describe({
   name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '0.6.1',
+  version: '0.6.2',
   summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
@@ -47,6 +47,6 @@ Package.onUse(function (api) {
 })
 
 Npm.depends({
-  '@learnersguild/game-cli': '0.4.3',
+  '@learnersguild/game-cli': '0.4.4',
   'socketcluster-client': '4.3.17'
 })
