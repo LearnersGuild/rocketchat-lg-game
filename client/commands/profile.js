@@ -1,6 +1,6 @@
-/* global commandsConfig, window, toggleFlexPanel */
+/* global commandFuncs, window, toggleFlexPanel */
 
-commandsConfig.profile.onInvoke = (/* command, commandParamStr */) => {
+commandFuncs.profile = (/* command, commandParamStr */) => {
   const idmURL = window.location.href.match(/chat.learnersguild.org/) ? 'https://idm.learnersguild.org' : 'http://idm.learnersguild.dev'
   const flexPanelURL = `${idmURL}/profile#${Date.now()}`
   toggleFlexPanel(flexPanelURL)

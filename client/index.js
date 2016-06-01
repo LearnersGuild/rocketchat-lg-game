@@ -1,10 +1,10 @@
-/* global commandsConfig */
+/* global commandFuncs */
 
 function invoke(command, commandParamStr, commandInfo) {
   console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
-  const commandConfig = commandsConfig[command]
-  if (commandConfig.onInvoke) {
-    commandConfig.onInvoke(command, commandParamStr, commandInfo)
+  const commandFunc = commandFuncs[command]
+  if (commandFunc) {
+    commandFunc(command, commandParamStr, commandInfo)
   }
   console.log('[LG SLASH COMMANDS] room id:', commandInfo.rid)
 }
@@ -21,10 +21,15 @@ Meteor.startup(function () {
   //   template: 'flexPanelIframe',
   //   order: 11
   // })
-  Object.keys(commandsConfig).forEach(command => {
-    const commandConfig = commandsConfig[command]
-    const {description, params} = commandConfig
-    RocketChat.slashCommands.add(command, invoke, {description, params})
+  Meteor.call('getLGCommandsConfig', (err, commandsConfig) => {
+    if (err) {
+      throw new Error(err)
+    }
+    Object.keys(commandsConfig).forEach(command => {
+      const commandConfig = commandsConfig[command]
+      const {description, params} = commandConfig
+      RocketChat.slashCommands.add(command, invoke, {description, params})
+    })
   })
 
   Tracker.autorun(() => {

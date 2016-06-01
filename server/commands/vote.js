@@ -1,4 +1,6 @@
-/* global graphQLFetcher, notifyUser, commandsConfig */
+/* global graphQLFetcher, notifyUser, usageFormat, usageMessage, commandFuncs */
+
+const {vote} = Npm.require('@learnersguild/game-cli')
 
 function invokeVoteAPI(lgJWT, goalDescriptors) {
   const baseURL = process.env.NODE_ENV === 'development' ? 'http://game.learnersguild.dev' : 'https://game.learnersguild.org'
@@ -43,11 +45,18 @@ function voteForGoals(goalDescriptors, commandInfo) {
   }
 }
 
-commandsConfig.vote.onInvoke = (command, commandParamStr, commandInfo) => {
-  // console.log('[LG SLASH COMMANDS] about to vote for:', commandParamStr)
-  const goalDescriptors = commandParamStr.split(/\s+/).filter(goalDescriptors => goalDescriptors.length > 0)
-  if (goalDescriptors.length > 0) {
-    voteForGoals(goalDescriptors, commandInfo)
+commandFuncs.vote = (command, commandParamStr, commandInfo) => {
+  let args
+  try {
+    args = vote.parse(commandParamStr.split(/\s+/))
+  } catch (error) {
+    return notifyUser(commandInfo.rid, usageMessage(error))
+  }
+  const usageText = vote.usage(args)
+  if (usageText) {
+    notifyUser(commandInfo.rid, usageFormat(usageText))
+  } else if (args._.length > 0) {
+    voteForGoals(args._, commandInfo)
   } else {
     notifyUser(commandInfo.rid, 'Loading current cycle voting results ...')
   }
