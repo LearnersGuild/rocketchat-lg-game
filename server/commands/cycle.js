@@ -44,7 +44,6 @@ commandFuncs.cycle = (command, commandParamStr, commandInfo) => {
     const subcommandFuncs = {
       launch: () => handleUpdateCycleStateCommand(commandInfo, 'PRACTICE', '🚀  Initiating Launch... stand by.'),
       retro: () => handleUpdateCycleStateCommand(commandInfo, 'RETROSPECTIVE', '🤔  Initiating Retrospective... stand by.'),
-      status: () => notifyUser(commandInfo.rid, 'Sorry -- `status` is not yet implemented.'),
     }
     const subcommandFunc = subcommandFuncs(args._[0])
     if (subcommandFunc) {
