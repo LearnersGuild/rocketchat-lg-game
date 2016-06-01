@@ -1,4 +1,4 @@
-/* global graphQLFetcher, notifyUser, usageFormat, commandFuncs */
+/* global graphQLFetcher, notifyUser, usageFormat, usageMessage, commandFuncs */
 
 const {cycle} = Npm.require('@learnersguild/game-cli')
 
@@ -31,10 +31,15 @@ function handleUpdateCycleStateCommand(commandInfo, state, msg) {
 }
 
 commandFuncs.cycle = (command, commandParamStr, commandInfo) => {
-  const args = cycle.parse(commandParamStr.split(/\s+/))
-  const usageMessage = cycle.usage(args)
-  if (usageMessage) {
-    notifyUser(commandInfo.rid, usageFormat(usageMessage))
+  let args
+  try {
+    args = cycle.parse(commandParamStr.split(/\s+/))
+  } catch (error) {
+    return notifyUser(commandInfo.rid, usageMessage(error))
+  }
+  const usageText = cycle.usage(args)
+  if (usageText) {
+    notifyUser(commandInfo.rid, usageFormat(usageText))
   } else if (args._.length === 1) {
     const subcommandFuncs = {
       launch: () => handleUpdateCycleStateCommand(commandInfo, 'PRACTICE', '🚀  Initiating Launch... stand by.'),

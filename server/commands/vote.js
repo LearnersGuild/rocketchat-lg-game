@@ -1,4 +1,4 @@
-/* global graphQLFetcher, notifyUser, usageFormat, commandFuncs */
+/* global graphQLFetcher, notifyUser, usageFormat, usageMessage, commandFuncs */
 
 const {vote} = Npm.require('@learnersguild/game-cli')
 
@@ -46,11 +46,16 @@ function voteForGoals(goalDescriptors, commandInfo) {
 }
 
 commandFuncs.vote = (command, commandParamStr, commandInfo) => {
-  const args = vote.parse(commandParamStr.split(/\s+/))
-  const usageMessage = vote.usage(args)
-  if (usageMessage) {
+  let args
+  try {
+    args = vote.parse(commandParamStr.split(/\s+/))
+  } catch (error) {
+    return notifyUser(commandInfo.rid, usageMessage(error))
+  }
+  const usageText = vote.usage(args)
+  if (usageText) {
     // Rocket.Chat
-    notifyUser(commandInfo.rid, usageFormat(usageMessage))
+    notifyUser(commandInfo.rid, usageFormat(usageText))
   } else if (args._.length > 0) {
     voteForGoals(args._, commandInfo)
   } else {

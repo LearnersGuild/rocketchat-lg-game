@@ -41,7 +41,7 @@ Package.onUse(function (api) {
     'server/commands/cycle.js',
     'server/lib/notifyUser.js',
     'server/lib/sentry.js',
-    'server/lib/usageFormat.js',
+    'server/lib/usage.js',
     'server/index.js',
   ], 'server')
 })
