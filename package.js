@@ -1,11 +1,12 @@
 Package.describe({
   name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '0.5.0',
+  version: '0.6.0',
   summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
 
-Package.onUse(function(api) {
+/* eslint-disable prefer-arrow-callback */
+Package.onUse(function (api) {
   api.versionsFrom('1.2.1')
 
   api.use([
@@ -15,7 +16,7 @@ Package.onUse(function(api) {
   ])
   api.use([
     'rocketchat:lib@0.0.1'
-  ], { weak: true, unordered: false })
+  ], {weak: true, unordered: false})
   api.use([
     'templating'
   ], 'client')
@@ -23,7 +24,7 @@ Package.onUse(function(api) {
   // ], 'server')
 
   api.addFiles([
-    'lib/commandsConfig.js',
+    'lib/commandFuncs.js',
     'lib/graphQLFetcher.js',
   ])
   api.addFiles([
@@ -40,10 +41,12 @@ Package.onUse(function(api) {
     'server/commands/cycle.js',
     'server/lib/notifyUser.js',
     'server/lib/sentry.js',
+    'server/lib/usageFormat.js',
     'server/index.js',
   ], 'server')
 })
 
 Npm.depends({
+  '@learnersguild/game-cli': '0.4.3',
   'socketcluster-client': '4.3.17'
 })
