@@ -54,7 +54,6 @@ commandFuncs.vote = (command, commandParamStr, commandInfo) => {
   }
   const usageText = vote.usage(args)
   if (usageText) {
-    // Rocket.Chat
     notifyUser(commandInfo.rid, usageFormat(usageText))
   } else if (args._.length > 0) {
     voteForGoals(args._, commandInfo)
