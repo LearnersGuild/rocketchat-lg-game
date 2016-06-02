@@ -1,5 +1,8 @@
 # History
 
+#### 0.7.0
+Added `/log` command
+
 #### 0.6.0
 Integrated `game-cli` npm package for better CLI parsing.
 
