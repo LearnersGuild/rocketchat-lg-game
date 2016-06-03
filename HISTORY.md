@@ -1,7 +1,10 @@
 # History
 
+#### 0.7.0
+Most implementation moved to `@learnersguild/game-cli` NPM module.
+
 #### 0.6.0
-Integrated `game-cli` npm package for better CLI parsing.
+Integrated `@learnersguild/game-cli` npm module for better CLI parsing.
 
 #### 0.5.0
 - Added `/cycle retro` command
