@@ -36,9 +36,13 @@ Meteor.methods({
   },
 
   parseLGCommandStr(command, commandParamStr) {
-    const argv = tokenizeCommandString(commandParamStr)
-    const args = commandFuncs[command].parse(argv)
-    return args
+    try {
+      const argv = tokenizeCommandString(commandParamStr)
+      const args = commandFuncs[command].parse(argv)
+      return args
+    } catch (error) {
+      throw new Meteor.Error(error.message)
+    }
   },
 })
 

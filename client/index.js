@@ -16,7 +16,8 @@ function invoke(command, commandParamStr /* , commandInfo */) {
     console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
     Meteor.call('parseLGCommandStr', command, commandParamStr, (err, args) => {
       if (err) {
-        throw new Error(err)
+        console.warn('[LG SLASH COMMANDS] unable to parse command string -- probably an invalid option; not running client-side command function')
+        return
       }
       const commandFunc = commandFuncs[command]
       if (commandFunc) {
