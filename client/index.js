@@ -1,15 +1,31 @@
+/* eslint-disable prefer-arrow-callback */
 /* global commandFuncs */
 
-function invoke(command, commandParamStr, commandInfo) {
-  console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
-  const commandFunc = commandFuncs[command]
-  if (commandFunc) {
-    commandFunc(command, commandParamStr, commandInfo)
-  }
-  console.log('[LG SLASH COMMANDS] room id:', commandInfo.rid)
+function invoke(command, commandParamStr /* , commandInfo */) {
+  // This is gross. We can't use Meteor.call() inside of this invoke() function
+  // because we're already inside of what Meteor terms a "stub" or "simulation".
+  // This is because we're essentially already inside of another Meteor.call()
+  // block (in this case, the one for Rocket.Chat's slashCommand function). To
+  // work around it, we just push an event onto the event loop by calling
+  // setTimeout(func, 0).
+  //
+  // If RocketChat ever migrates to Meteor > 1.3, we can probably avoid this
+  // Meteor.call() all together because we can use the @learnersguild/game-cli
+  // module client-side. One can dream ...
+  setTimeout(function () {
+    console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
+    Meteor.call('parseLGCommandStr', command, commandParamStr, (err, args) => {
+      if (err) {
+        throw new Error(err)
+      }
+      const commandFunc = commandFuncs[command]
+      if (commandFunc) {
+        commandFunc(args)
+      }
+    })
+  }, 0)
 }
 
-/* eslint-disable prefer-arrow-callback */
 Meteor.startup(function () {
   // HOWTO add tab bar buttons on RHS
   //
