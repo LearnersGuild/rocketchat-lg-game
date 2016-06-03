@@ -24,6 +24,7 @@ Package.onUse(function (api) {
   api.addFiles([
     'lib/commandFuncs.js',
     'lib/graphQLFetcher.js',
+    'lib/tokenizeCommandString.js',
   ])
   api.addFiles([
     'client/commands/profile.js',
