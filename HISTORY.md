@@ -1,6 +1,6 @@
 # History
 
-#### 0.8.0
+#### 0.7.0
 Most implementation moved to `@learnersguild/game-cli` NPM module.
 
 #### 0.6.0
