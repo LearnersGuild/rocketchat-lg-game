@@ -1,5 +1,9 @@
 # History
 
+#### 0.7.1
+- Use `LG_BOT_USERNAME` from rocketchat-lg-sso
+- Use latest @learnersguild/game-cli
+
 #### 0.7.0
 Most implementation moved to `@learnersguild/game-cli` NPM module.
 

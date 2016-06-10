@@ -1,11 +1,10 @@
-/* global notifyUser:true, lastSlashCommandRoomIds */
+/* global LG_BOT_USERNAME, notifyUser:true, lastSlashCommandRoomIds */
 /* exported notifyUser */
 
 const socketCluster = Npm.require('socketcluster-client')
 
-const BOT_USERNAME = 'lg-bot'
 notifyUser = (roomId, message) => {
-  const {_id, username, name} = Meteor.users.findOne({username: BOT_USERNAME})
+  const {_id, username, name} = Meteor.users.findOne({username: LG_BOT_USERNAME})
   RocketChat.Notifications.notifyUser(Meteor.userId(), 'lg-slash-command-response', {
     _id: Random.id(),
     rid: roomId,
