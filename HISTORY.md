@@ -1,5 +1,8 @@
 # History
 
+#### 0.8.0
+Added support for `/log -r` and `/log -rq NUM`
+
 #### 0.7.1
 - Use `LG_BOT_USERNAME` from rocketchat-lg-sso
 - Use latest @learnersguild/game-cli
