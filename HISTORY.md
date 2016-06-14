@@ -1,5 +1,9 @@
 # History
 
+#### 0.8.1
+- Upgrade to `@learnersguild/game-cli@0.7.3` (compatible with Node < 1.0)
+- Ensure that any Meteor callbacks passed to non-Meteor code run in a fiber
+
 #### 0.8.0
 Added support for `/log -r` and `/log -rq NUM`
 

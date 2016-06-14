@@ -9,7 +9,9 @@ function invoke(command, commandParamStr, commandInfo) {
   const commandFunc = commandFuncs[command].invoke
   if (commandFunc) {
     const {lgJWT, lgPlayer, lgUser} = Meteor.user().services.lgSSO
-    const notify = msg => notifyUser(commandInfo.rid, msg)
+    const notify = Meteor.bindEnvironment(msg => {
+      notifyUser(commandInfo.rid, msg)
+    })
     const argv = tokenizeCommandString(commandParamStr)
     commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError})
   }
