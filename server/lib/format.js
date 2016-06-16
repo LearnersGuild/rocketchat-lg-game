@@ -8,6 +8,6 @@ formatUsage = text => `\`\`\`diff\n${text}\`\`\``
 
 formatError = msg => {
   const formattedText = `**Error:** ${msg.toString()}`  // prefix with bold 'Error:'
-    .replace(/\-{1,2}[^\s]+/, '`$&`')                   // show options preformatted
+    .replace(/\s\-{1,2}[^\s]+/, '`$&`')                   // show options preformatted
   return `${formattedText}. Try \`--help\` for usage.`  // append usage suggestion
 }
