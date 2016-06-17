@@ -1,5 +1,11 @@
 # History
 
+#### 0.8.5
+- Fix bug in `getServiceBaseURL`
+
+#### 0.8.4
+- Only format command-line options with markdown backticks
+
 #### 0.8.3
 - Add utility function to get service base URLs
 - Upgrade to `@learnersguild/game-cli@0.8.1` (ensure Promise is returned from all command invoke funcs)
