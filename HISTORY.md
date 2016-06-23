@@ -1,5 +1,8 @@
 # History
 
+#### 0.8.7
+- Be more defensive when reading the Meteor user record and expecting LG attributes (fixes #36).
+
 #### 0.8.5
 - Fix bug in `getServiceBaseURL`
 
