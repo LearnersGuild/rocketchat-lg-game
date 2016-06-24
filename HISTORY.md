@@ -1,5 +1,8 @@
 # History
 
+#### 0.9.1
+- Update game-cli for bug fixes
+
 #### 0.9.0
 - Update game-cli to get /cycle init
 
