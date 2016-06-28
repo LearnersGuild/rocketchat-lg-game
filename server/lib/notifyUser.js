@@ -27,21 +27,28 @@ function scConnect() {
 
 Meteor.methods({
   subscribeToLGUserNotifications() {
-    if (Meteor.userId()) {
+    const user = Meteor.user()
+    if (user) {
       if (!socket) {
         scConnect()
       }
-      const {lgPlayer} = Meteor.user().services.lgSSO
+      if (!user.services || !user.services.lgSSO) {
+        const message = `Player notification subscribe not working for ${user.username} (id=${user._id}) because the user record is missing the 'services.lgSSO' attribute`
+        RavenLogger.log(message)
+        console.error(`[LG SLASH COMMANDS] ${message}`)
+        return
+      }
+      const {lgPlayer} = user.services.lgSSO
       const channelName = `notifyUser-${lgPlayer.id}`
       if (!socket.isSubscribed(channelName, true)) {
         const playerNotificationsChannel = socket.subscribe(channelName)
         playerNotificationsChannel.watch(Meteor.bindEnvironment(playerNotification => {
-          if (lastSlashCommandRoomIds[Meteor.userId()]) {
-            notifyUser(lastSlashCommandRoomIds[Meteor.userId()], playerNotification)
+          if (lastSlashCommandRoomIds[user._id]) {
+            notifyUser(lastSlashCommandRoomIds[user._id], playerNotification)
           } else {
-            const msg = '[LG SLASH COMMANDS] received player notification, but do not know to which room to send it'
-            console.error(msg)
-            RavenLogger.log(msg)
+            const message = `Received player notification for ${user.username} (id=${user._id}), but do not know to which room to send it`
+            RavenLogger.log(message)
+            console.error(`[LG SLASH COMMANDS] ${message}`)
           }
         }))
       }
@@ -49,11 +56,18 @@ Meteor.methods({
   },
 
   unsubscribeFromLGUserNotifications() {
-    if (Meteor.userId()) {
+    const user = Meteor.user()
+    if (user) {
       if (!socket) {
         return
       }
-      const {lgPlayer} = Meteor.user().services.lgSSO
+      if (!user.services || !user.services.lgSSO) {
+        const message = `Player notification unsubscribe not working for ${user.username} (id=${user._id}) because the user record is missing the 'services.lgSSO' attribute`
+        RavenLogger.log(message)
+        console.error(`[LG SLASH COMMANDS] ${message}`)
+        return
+      }
+      const {lgPlayer} = user.services.lgSSO
       const channelName = `notifyUser-${lgPlayer.id}`
       socket.unsubscribe(channelName)
     }

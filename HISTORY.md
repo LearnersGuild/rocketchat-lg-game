@@ -1,7 +1,18 @@
 # History
 
-#### 0.8.7
+
+#### 0.10.0
 - Pull in `@learnersguild/game-cli@0.10.0` with `/project set-artifact`
+
+#### 0.9.1
+- Update game-cli for bug fixes
+
+#### 0.9.0
+- Update game-cli to get /cycle init
+
+#### 0.8.7
+- Be more defensive when reading the Meteor user record and expecting LG attributes (fixes #36).
+>>>>>>> 43c043a64a4e865b8732367f612b21c0099b7160
 
 #### 0.8.5
 - Fix bug in `getServiceBaseURL`
