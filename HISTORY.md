@@ -1,5 +1,8 @@
 # History
 
+#### 0.8.7
+- Pull in `@learnersguild/game-cli@0.10.0` with `/project set-artifact`
+
 #### 0.8.5
 - Fix bug in `getServiceBaseURL`
 
