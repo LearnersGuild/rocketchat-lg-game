@@ -12,7 +12,6 @@
 
 #### 0.8.7
 - Be more defensive when reading the Meteor user record and expecting LG attributes (fixes #36).
->>>>>>> 43c043a64a4e865b8732367f612b21c0099b7160
 
 #### 0.8.5
 - Fix bug in `getServiceBaseURL`
