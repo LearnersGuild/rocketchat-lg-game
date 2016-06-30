@@ -2,6 +2,9 @@
 
 
 #### 0.10.0
+- Pull in `@learnersguild/game-cli@0.11.0` with `/review`
+
+#### 0.10.0
 - Pull in `@learnersguild/game-cli@0.10.0` with `/project set-artifact`
 
 #### 0.9.1
