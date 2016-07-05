@@ -42,8 +42,8 @@ Meteor.methods({
       const argv = tokenizeCommandString(commandParamStr)
       const args = commandFuncs[command].parse(argv)
       return args
-    } catch (error) {
-      throw new Meteor.Error(error.message)
+    } catch (err) {
+      throw new Meteor.Error(err.message)
     }
   },
 })
