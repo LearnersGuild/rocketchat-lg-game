@@ -1,7 +1,11 @@
 # History
 
+#### 0.11.1
+- (privately) echo back the command typed (fixes #39)
+- make command tokenization work with single quotes (fixes #40)
+- upgrade to latest game-cli
 
-#### 0.10.0
+#### 0.11.0
 - Pull in `@learnersguild/game-cli@0.11.0` with `/review`
 
 #### 0.10.0
