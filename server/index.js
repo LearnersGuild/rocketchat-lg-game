@@ -6,6 +6,7 @@ const commands = Npm.require('@learnersguild/game-cli')
 lastSlashCommandRoomIds = {}
 function invoke(command, commandParamStr, commandInfo) {
   console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
+  notifyUser(commandInfo.rid, `> /${command} ${commandParamStr}`)
   const commandFunc = commandFuncs[command].invoke
   if (commandFunc) {
     const {lgJWT, lgPlayer, lgUser} = Meteor.user().services.lgSSO
