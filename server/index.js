@@ -13,8 +13,13 @@ function invoke(command, commandParamStr, commandInfo) {
     const notify = Meteor.bindEnvironment(msg => {
       notifyUser(commandInfo.rid, msg)
     })
-    const argv = tokenizeCommandString(commandParamStr)
-    commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError})
+    try {
+      const argv = tokenizeCommandString(commandParamStr)
+      console.log({argv})
+      commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError})
+    } catch (err) {
+      notifyUser(commandInfo.rid, formatError(err.message || err))
+    }
   }
   lastSlashCommandRoomIds[Meteor.userId()] = commandInfo.rid
 }
