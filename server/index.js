@@ -6,14 +6,19 @@ const commands = Npm.require('@learnersguild/game-cli')
 lastSlashCommandRoomIds = {}
 function invoke(command, commandParamStr, commandInfo) {
   console.log(`[LG SLASH COMMANDS] '/${command}' invoked with '${commandParamStr}'`)
+  notifyUser(commandInfo.rid, `> /${command} ${commandParamStr}`)
   const commandFunc = commandFuncs[command].invoke
   if (commandFunc) {
     const {lgJWT, lgPlayer, lgUser} = Meteor.user().services.lgSSO
     const notify = Meteor.bindEnvironment(msg => {
       notifyUser(commandInfo.rid, msg)
     })
-    const argv = tokenizeCommandString(commandParamStr)
-    commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError})
+    try {
+      const argv = tokenizeCommandString(commandParamStr)
+      commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError})
+    } catch (err) {
+      notifyUser(commandInfo.rid, formatError(err.message || err))
+    }
   }
   lastSlashCommandRoomIds[Meteor.userId()] = commandInfo.rid
 }
@@ -42,8 +47,8 @@ Meteor.methods({
       const argv = tokenizeCommandString(commandParamStr)
       const args = commandFuncs[command].parse(argv)
       return args
-    } catch (error) {
-      throw new Meteor.Error(error.message)
+    } catch (err) {
+      throw new Meteor.Error(err.message)
     }
   },
 })
