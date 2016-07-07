@@ -1,5 +1,8 @@
 # History
 
+#### 0.12.0
+- Pull in `@learnersguild/game-cli@0.12.0`
+
 #### 0.11.1
 - (privately) echo back the command typed (fixes #39)
 - make command tokenization work with single quotes (fixes #40)
