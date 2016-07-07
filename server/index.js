@@ -15,7 +15,7 @@ function invoke(command, commandParamStr, commandInfo) {
     })
     try {
       const argv = tokenizeCommandString(commandParamStr)
-      commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError})
+      commandFunc(argv, notify, {lgJWT, lgPlayer, lgUser, formatUsage, formatError, maxWidth: 80, commandPrefix: '/'})
     } catch (err) {
       notifyUser(commandInfo.rid, formatError(err.message || err))
     }
