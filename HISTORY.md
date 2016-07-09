@@ -1,5 +1,8 @@
 # History
 
+#### 0.13.1
+- Better error formatting
+
 #### 0.13.0
 - Pull in `@learnersguild/game-cli@0.13.1`
 - Pass a command prefix and max width of 80 to game-cli
