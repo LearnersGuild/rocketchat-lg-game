@@ -1,6 +1,6 @@
 Package.describe({
   name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '0.13.3',
+  version: '1.0.0',
   summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
@@ -27,6 +27,7 @@ Package.onUse(function (api) {
   ])
   api.addFiles([
     'client/commands/profile.js',
+    'client/commands/retro.js',
     'client/commands/vote.js',
     'client/lib/flexPanel.js',
     'client/lib/getServiceBaseURL.js',
@@ -44,6 +45,6 @@ Package.onUse(function (api) {
 })
 
 Npm.depends({
-  '@learnersguild/game-cli': '0.14.0',
+  '@learnersguild/game-cli': '1.0.0',
   'socketcluster-client': '4.3.17'
 })
