@@ -8,6 +8,7 @@ Template.flexPanel.helpers({
 const closeOnWindowMessages = [
   'updateUser',
   'closeCycleVotingResults',
+  'closeRetroSurvey',
 ]
 
 Template.flexPanelIframe.created = function () {
