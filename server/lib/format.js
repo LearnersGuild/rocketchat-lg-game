@@ -10,8 +10,4 @@ formatError = msg => {
   return msg.toString()
     // ensure prefixed with bold 'Error:'
     .replace(/(^Error: )?(.*)/, '**Error:** $2')
-    // preformat commands or solo options
-    .replace(/(\W)((\/\w+)(\s+\-{1,2}[\w_-]+)*|\-{1,2}[\w_-]+)/g, '$1`$2`')
-    // make sure nothing got doubly-preformatted
-    .replace(/``/g, '`')
 }
