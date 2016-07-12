@@ -1,5 +1,8 @@
 # History
 
+#### 0.13.2
+- bump 0.13.2
+
 #### 0.13.1
 - Better error formatting
 
