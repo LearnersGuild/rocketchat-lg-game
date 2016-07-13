@@ -38,8 +38,8 @@ Meteor.methods({
         console.error(`[LG SLASH COMMANDS] ${message}`)
         return
       }
-      const {lgPlayer} = user.services.lgSSO
-      const channelName = `notifyUser-${lgPlayer.id}`
+      const {lgUser} = user.services.lgSSO
+      const channelName = `notifyUser-${lgUser.id}`
       if (!socket.isSubscribed(channelName, true)) {
         const playerNotificationsChannel = socket.subscribe(channelName)
         playerNotificationsChannel.watch(Meteor.bindEnvironment(playerNotification => {
@@ -67,8 +67,8 @@ Meteor.methods({
         console.error(`[LG SLASH COMMANDS] ${message}`)
         return
       }
-      const {lgPlayer} = user.services.lgSSO
-      const channelName = `notifyUser-${lgPlayer.id}`
+      const {lgUser} = user.services.lgSSO
+      const channelName = `notifyUser-${lgUser.id}`
       socket.unsubscribe(channelName)
     }
   }
