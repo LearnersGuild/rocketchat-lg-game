@@ -1,5 +1,9 @@
 # History
 
+#### 0.13.3
+- upgrade to `@learnersguild/game-cli@0.14.0`
+- remove all dependency on an `lgPlayer` attribute in the Meteor user record
+
 #### 0.13.2
 - bump 0.13.2
 
