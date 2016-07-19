@@ -3,7 +3,8 @@
     "lint": "./node_modules/.bin/xo",
     "publish:login": "./meteor-login.exp ${METEOR_USERNAME} ${METEOR_PASSWORD}",
     "publish:package": "meteor publish",
-    "publish": "npm run publish:login && npm run publish:package",
+    "publish": "echo Nothing to do!",
+    "publish:old": "npm run publish:login && npm run publish:package",
     "test": "npm run lint"
   },
   "xo": {
