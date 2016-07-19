@@ -11,7 +11,7 @@ Package.onUse(function (api) {
 
   api.use([
     'ecmascript',
-    'learnersguild:rocketchat-lg-sso@0.5.2',
+    'learnersguild:rocketchat-lg-sso@1.0.0',
     'deepwell:raven@0.3.0'
   ])
   api.use([
