@@ -1,6 +1,6 @@
-# learnersguild:rocketchat-lg-slash-commands
+# learnersguild:rocketchat-lg-game
 
-Custom slash commands for Rocket.Chat within Learners Guild.
+Custom functionality for the Learners Guild game (including slash commands for Rocket.Chat).
 
 **NOTE:** This package will likely not be useful for anyone outside of [Learners Guild][learnersguild].
 

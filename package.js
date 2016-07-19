@@ -1,7 +1,7 @@
 Package.describe({
-  name: 'learnersguild:rocketchat-lg-slash-commands',
-  version: '1.0.0',
-  summary: 'Custom /slash commands for Rocket.Chat within Learners Guild.',
+  name: 'learnersguild:rocketchat-lg-game',
+  version: '1.0.1',
+  summary: 'Custom functionality for the Learners Guild game (including slash commands for Rocket.Chat).',
   git: 'https://github.com/LearnersGuild/rocketchat-lg-slash-commands'
 })
 

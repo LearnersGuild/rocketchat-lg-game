@@ -1,5 +1,8 @@
 # History
 
+#### 1.0.1
+- rename to `learnersguild:rocketchat-lg-game`
+
 #### 1.0.0
 - upgrade to `@learnersguild/game-cli@1.0.0`
 - add `/retro` command to slide-out flex panel
