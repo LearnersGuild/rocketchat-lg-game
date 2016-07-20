@@ -1,3 +1,5 @@
+# DEPRECATED: this repo has been merged into [echo-chat][echo-chat]
+
 # learnersguild:rocketchat-lg-game
 
 Custom functionality for the Learners Guild game (including slash commands for Rocket.Chat).
@@ -38,5 +40,6 @@ See the [LICENSE](./LICENSE) file.
 
 
 [IDM]: https://github.com/LearnersGuild/idm
+[echo-chat]: https://github.com/LearnersGuild/echo-chat
 [Rocket.Chat]: https://github.com/LearnersGuild/Rocket.Chat
 [learnersguild]: https://www.learnersguild.org/
