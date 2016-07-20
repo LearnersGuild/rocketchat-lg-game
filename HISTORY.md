@@ -2,6 +2,8 @@
 
 #### 1.0.1
 - rename to `learnersguild:rocketchat-lg-game`
+- use git-subrepo
+- stop publishing
 
 #### 1.0.0
 - upgrade to `@learnersguild/game-cli@1.0.0`
